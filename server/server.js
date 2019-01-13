@@ -5,10 +5,12 @@ let { mongoose } = require("./db/mongoose");
 let { Todo } = require("./modals/todo");
 let { User } = require("./modals/user");
 
+const port = process.env.PORT || 3000;
+
 let app = express();
 
 app.listen(3000, () => {
-  console.log("Started On Port 3000");
+  console.log(`Started On Port ${port}`);
 });
 
 //setting up route
@@ -38,6 +40,17 @@ app.get("/todos", (req, res) => {
     },
     err => {
       res.status(400).send(err);
+    }
+  );
+});
+
+app.get("/todos/:id", (req, res) => {
+  Todo.findById(req.params.id).then(
+    response => {
+      res.send(response);
+    },
+    err => {
+      res.status(400).send({ error: true });
     }
   );
 });
