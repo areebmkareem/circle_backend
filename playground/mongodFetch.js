@@ -9,11 +9,10 @@ MongoClient.connect(
     console.log("[CONNECTED TO MONGODB]");
 
     db.collection("todoApp")
-      .find({ _id: "" })
-      .toArray()
+      .findOneAndDelete({ completed: false })
       .then(
-        docs => {
-          console.log(JSON.stringify(docs, undefined, 2));
+        resp => {
+          console.log("[FOUND]", resp.value);
         },
         err => {
           console.log("[ERROR]", err);

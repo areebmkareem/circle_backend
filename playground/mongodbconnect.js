@@ -10,8 +10,9 @@ MongoClient.connect(
 
     db.collection("todoApp").insertOne(
       {
-        text: "i'm dope",
-        completed: true
+        text: "kakko",
+        completed: false,
+        age: 12
       },
       (err, result) => {
         if (err) {
