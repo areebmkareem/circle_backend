@@ -17,7 +17,8 @@ app.listen(port, () => {
 app.use(bodyParser.json());
 app.post("/todos", (req, res) => {
   let todo = new Todo({
-    text: req.body.text
+    text: req.body.text,
+    createdAt: new Date()
   });
   todo.save().then(
     doc => {
