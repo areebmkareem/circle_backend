@@ -54,3 +54,16 @@ app.get("/todos/:id", (req, res) => {
     }
   );
 });
+
+app.post("/todo-delete", (req, res) => {
+  let todoId = req.body.todoId;
+  Todo.findByIdAndDelete(todoId).then(
+    () => {
+      res.send({ success: true });
+    },
+    err => {
+      console.log("ERROR");
+      res.send({ error: true });
+    }
+  );
+});
