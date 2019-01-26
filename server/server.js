@@ -45,7 +45,8 @@ app.get("/todos", (req, res) => {
   );
 });
 
-app.get("/todos/:id", (req, res) => {
+app.get("/todo/:id", (req, res) => {
+  console.log(req.params);
   Todo.findById(req.params.id).then(
     response => {
       res.send(response);
@@ -65,6 +66,19 @@ app.post("/todo-delete", (req, res) => {
     err => {
       console.log("ERROR");
       res.send({ error: true });
+    }
+  );
+});
+
+app.post("/update/:id", (req, res) => {
+  console.log("[UPDATE]", req.params, req.body);
+  let toUpdateText = req.body.text;
+  Todo.updateOne({ _id: req.params.id, text: toUpdateText }).then(
+    () => {
+      res.send({ success: true });
+    },
+    err => {
+      res.send({ error: tru });
     }
   );
 });
