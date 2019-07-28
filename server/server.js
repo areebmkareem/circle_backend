@@ -15,6 +15,8 @@ app.listen(port, () => {
 
 //setting up route
 app.use(bodyParser.json());
+console.log(__dirname, __filename);
+
 app.post("/todos", (req, res) => {
   let todo = new Todo({
     text: req.body.text,
