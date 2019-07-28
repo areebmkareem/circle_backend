@@ -1,9 +1,9 @@
 let express = require("express");
 let bodyParser = require("body-parser");
-
+let becrypt = require("bcryptjs");
 let { mongoose } = require("./db/mongoose");
 let { Todo } = require("./modals/todo");
-let { User } = require("./modals/user");
+let { Users } = require("./modals/user");
 
 const port = process.env.PORT || 3000;
 
@@ -47,6 +47,21 @@ app.get("/todos", (req, res) => {
   );
 });
 
+app.post("/register", (req, res) => {
+  let createUser;
+  console.log(req.body);
+  becrypt.hash(req.body.password, 8).then(encryptedPassword => {
+    console.log("passwordCrypted", encryptedPassword);
+    createUser = new Users({
+      email: req.body.email,
+      password: encryptedPassword
+    });
+    createUser.save().then(() => {
+      res.send({ success: true });
+    });
+  });
+});
+
 app.get("/todo/:id", (req, res) => {
   console.log(req.params);
   Todo.findById(req.params.id).then(
@@ -80,7 +95,7 @@ app.post("/update/:id", (req, res) => {
       res.send({ success: true });
     },
     err => {
-      res.send({ error: tru });
+      res.send({ error: true });
     }
   );
 });
