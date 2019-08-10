@@ -43,12 +43,12 @@ userSchema.methods.generateTokenId = async function() {
   // console.log("[generateTokenId]", user);
   let token = await jwt.sign({ _id: user._id.toString() }, "mySecretKey");
   user.tokens = user.tokens.concat({ token });
-  return token;
+  return { user, token };
 };
 
 userSchema.pre("save", async function(next) {
   const user = this;
-  console.log("[PRE]", user);
+
   if (user.isModified("password")) {
     user.password = await bcrypt.hash(user.password, 8);
   }

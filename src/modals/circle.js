@@ -2,19 +2,15 @@ const mongoose = require("mongoose");
 
 const circleSchema = mongoose.Schema({
   name: {
-    type: String,
-    require: true
+    type: String
   },
   circle_admin: {
-    type: String,
-    require: true,
-    unique: true
+    type: String
   },
   members: [
     {
       _id: {
-        type: String,
-        require: true
+        type: String
       }
     }
   ]
