@@ -27,15 +27,11 @@ const userSchema = mongoose.Schema({
 });
 
 userSchema.statics.getCredentials = async function(email, password) {
-  try {
-    let user = await User.findOne({ email });
-    if (!user) return { error: true, message: "User not found!" };
-    let isMatch = await bcrypt.compare(password, user.password);
-    if (isMatch) return user;
-    else return { error: true, message: "Password is wrong!" };
-  } catch (error) {
-    return { error: true, message: error };
-  }
+  let user = await User.findOne({ email });
+  if (!user) return { error: true, message: "User not found!" };
+  let isMatch = await bcrypt.compare(password, user.password);
+  if (isMatch) return user;
+  else return { error: true, message: "Password is wrong!" };
 };
 
 //Methods
@@ -44,6 +40,7 @@ userSchema.methods.generateTokenId = async function() {
   try {
     let token = await jwt.sign({ _id: user._id.toString() }, "mySecretKey");
     user.tokens = user.tokens.concat({ token });
+    user.save();
     return { user, token };
   } catch (error) {}
 };
@@ -54,6 +51,7 @@ userSchema.pre("save", async function(next) {
   if (user.isModified("password")) {
     user.password = await bcrypt.hash(user.password, 8);
   }
+
   next();
 });
 
