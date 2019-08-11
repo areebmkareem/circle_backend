@@ -7,6 +7,11 @@ const circleMethods = require("./circle");
 router.post("/register", async (req, res) => {
   try {
     const { name, password, email } = req.body;
+    console.log("[DATA]", {
+      name,
+      password,
+      email
+    });
     let user = new User({
       name,
       email,
@@ -14,7 +19,6 @@ router.post("/register", async (req, res) => {
     });
     let data = await user.generateTokenId();
     circleMethods.createCircle(data.user._id);
-    user.save();
     res.send({ success: true, token: data.token });
   } catch (error) {
     res.send({ error });
