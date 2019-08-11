@@ -30,7 +30,7 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     let response = await User.getCredentials(email, password);
     if (!response.error) {
-      let data = await user.generateTokenId();
+      let data = await response.generateTokenId();
       res.send({ success: true, token: data.token });
     } else res.send(response);
   } catch (error) {
