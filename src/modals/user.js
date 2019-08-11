@@ -41,10 +41,11 @@ userSchema.statics.getCredentials = async function(email, password) {
 //Methods
 userSchema.methods.generateTokenId = async function() {
   const user = this;
-  // console.log("[generateTokenId]", user);
-  let token = await jwt.sign({ _id: user._id.toString() }, "mySecretKey");
-  user.tokens = user.tokens.concat({ token });
-  return { user, token };
+  try {
+    let token = await jwt.sign({ _id: user._id.toString() }, "mySecretKey");
+    user.tokens = user.tokens.concat({ token });
+    return { user, token };
+  } catch (error) {}
 };
 
 userSchema.pre("save", async function(next) {
