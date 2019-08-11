@@ -27,14 +27,15 @@ const userSchema = mongoose.Schema({
 });
 
 userSchema.statics.getCredentials = async function(email, password) {
-  console.log("[getCredentials]", { email, password });
-  let user = await User.findOne({ email });
-  if (!user) return false;
-  console.log(user, user.password, "***************************************");
-  let isMatch = await bcrypt.compare(password, user.password);
-  console.log(isMatch, "::");
-  if (isMatch) return user;
-  else return false;
+  try {
+    let user = await User.findOne({ email });
+    if (!user) return { error: true, message: "User not found!" };
+    let isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) return user;
+    else return { error: true, message: "Password is wrong!" };
+  } catch (error) {
+    return { error: true, message: error };
+  }
 };
 
 //Methods

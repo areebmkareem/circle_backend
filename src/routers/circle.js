@@ -10,6 +10,8 @@ const createCircle = userId => {
   cicle.save();
 };
 
+router.get("/circles", (req, res) => {});
+
 module.exports = {
   createCircle
 };

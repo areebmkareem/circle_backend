@@ -18,12 +18,14 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+  let user = new User({});
+
   const { email, password } = req.body;
-  let user = await User.getCredentials(email, password);
-  if (user) {
+  let response = await User.getCredentials(email, password);
+  if (!response.error) {
     let data = await user.generateTokenId();
     res.send({ token: data.token });
-  } else res.send({ error: true });
+  } else res.send(response);
 });
 
 module.exports = router;
