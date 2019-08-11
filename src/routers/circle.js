@@ -10,8 +10,9 @@ const createCircle = userId => {
   cicle.save();
 };
 router.get("/circles", async (req, res) => {
+  const { userId } = req.body;
   try {
-    let data = await Circle.find({});
+    let data = await Circle.find({ circle_admin: userId });
     res.send(data);
   } catch (error) {
     res.send("");
