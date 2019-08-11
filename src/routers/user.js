@@ -1,6 +1,5 @@
 const express = require("express");
 const User = require("../modals/user");
-const Circle = require("../modals/circle");
 const router = new express.Router();
 const circleMethods = require("./circle");
 
