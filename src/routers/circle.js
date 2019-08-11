@@ -9,9 +9,16 @@ const createCircle = userId => {
   });
   cicle.save();
 };
-
-router.get("/circles", (req, res) => {});
+router.get("/circles", async (req, res) => {
+  try {
+    let data = await Circle.find({});
+    res.send(data);
+  } catch (error) {
+    res.send("");
+  }
+});
 
 module.exports = {
+  router,
   createCircle
 };

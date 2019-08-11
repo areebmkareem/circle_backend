@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../modals/user");
+const Circle = require("../modals/circle");
 const router = new express.Router();
 const circleMethods = require("./circle");
 
@@ -14,7 +15,7 @@ router.post("/register", async (req, res) => {
     let data = await user.generateTokenId();
     circleMethods.createCircle(data.user._id);
     user.save();
-    res.send({ token: data.token });
+    res.send({ success: true, token: data.token });
   } catch (error) {
     res.send({ error });
   }
@@ -28,7 +29,7 @@ router.post("/login", async (req, res) => {
     let response = await User.getCredentials(email, password);
     if (!response.error) {
       let data = await user.generateTokenId();
-      res.send({ token: data.token });
+      res.send({ success: true, token: data.token });
     } else res.send(response);
   } catch (error) {
     res.send(error);
