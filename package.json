@@ -20,6 +20,7 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^2.2.5",
-    "mongoose": "^5.4.3"
+    "mongoose": "^5.4.3",
+    "socket.io": "^2.2.0"
   }
 }
