@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../modals/user");
 const router = new express.Router();
 const circleMethods = require("./circle");
+const auth = require("../middleware/auth");
 
 router.post("/register", async (req, res) => {
   try {
@@ -25,8 +26,6 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    let user = new User({});
-
     const { email, password } = req.body;
     let response = await User.getCredentials(email, password);
     if (!response.error) {
@@ -38,4 +37,14 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/logout", auth, async (req, res) => {
+  try {
+    let { user, token } = req;
+    user.tokens = user.tokens.filter(data => data.token !== token);
+    user.save();
+    res.send({ success: true, message: "Successfully logged out!" });
+  } catch (error) {
+    res.send({ error: true, message: "Something went wrong", additionalInfo: error });
+  }
+});
 module.exports = router;
