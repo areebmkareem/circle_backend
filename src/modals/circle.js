@@ -9,7 +9,10 @@ const circleSchema = mongoose.Schema({
   },
   members: [
     {
-      _id: {
+      name: {
+        type: String
+      },
+      userId: {
         type: String
       }
     }

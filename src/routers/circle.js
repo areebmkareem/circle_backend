@@ -1,7 +1,7 @@
 const express = require("express");
 const Circle = require("../modals/circle");
 const router = new express.Router();
-const auth =require("../middleware/auth")
+const auth = require("../middleware/auth");
 const createCircle = userId => {
   let cicle = new Circle({
     name: "circle",
@@ -9,10 +9,10 @@ const createCircle = userId => {
   });
   cicle.save();
 };
-router.get("/circles",auth, async (req, res) => {
-  const user=req.user
+router.get("/circles", auth, async (req, res) => {
+  const user = req.user;
   try {
-    let data = await Circle.find({ circle_admin: user._id });
+    let data = await Circle.find({ $or: [{ "members.userId": user._id }, { circle_admin: user._id }] }, { name: 1 });
     res.send(data);
   } catch (error) {
     res.send("");
