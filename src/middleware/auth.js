@@ -3,7 +3,7 @@ const User = require("../modals/user");
 const auth = async (req, res, next) => {
   try {
     const token = req.header("token");
-    let decoded = jwt.verify(token, "mySecretKey");
+    let decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded) {
       let user = await User.findOne({ _id: decoded._id, "tokens.token": token });
       if (user) {

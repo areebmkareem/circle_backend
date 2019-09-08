@@ -8,7 +8,7 @@ let { mongoose } = require("./db/mongoose");
 let { Todo } = require("./modals/todo");
 let { Users } = require("./modals/user");
 const cors = require("cors");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 const app = express();
 
